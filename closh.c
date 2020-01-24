@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <signal.h>
+#include <sys/wait.h>
 
 #define TRUE 1
 #define FALSE 0
@@ -71,14 +72,58 @@ int main() {
 	      //count--; //has to be at the start otherwise the subract won't be reached by execvp
 	      //exec(); //create a new process
 	      if(fork() == 0){
-		execvp(cmdTokens[0], cmdTokens);
+		    execvp(cmdTokens[0], cmdTokens);
 	      } else {
-		count--;
+		    count--;
 	      }
 	       
 	    }
 
-	}
+	} else { // TODO: Fix timeout glitch: The first iteration works as intended, but any subsequent iterations default to killing
+             //       the child immediately and printing the timeout exceeded error without waiting at all.
+
+        // Sequential Execution
+        // Variables to keep track of 2 child processes
+        pid_t child_pid, timer_pid;
+        // Iterates count number of times
+        while ( count > 0 ) {
+
+            // Creates a child process and stores its PID in child_pid
+            // The child executes the code inside of the if block
+            if ((child_pid = fork()) == 0){
+                // Tries replacing itself with the user specified program
+                execvp(cmdTokens[0], cmdTokens);
+                // If the above fails, the child prints an error and exits
+                printf("Can't execute %s\n", cmdTokens[0]);
+                exit(1);
+            }
+
+            // Creates a child to keep track of the timeout
+            if ((timer_pid = fork()) == 0){
+                sleep(timeout);
+                exit(0);
+            }
+
+            // Parent program waits for either child to finish
+            pid_t finished_process = wait(NULL);
+            if (finished_process == child_pid){
+                // If the child executing the user command finishes first,
+                // the timer process is killed. This is the intended outcome.
+                kill(timer_pid, SIGKILL);
+            } else {
+                // If the timer finishes before the user command child, we
+                // kill that child as it has exceeded the timeout.
+                kill(child_pid, SIGKILL);
+                // After killing the child, the parent prints an error message.
+                printf("%s exceeded timeout\n", cmdTokens[0]);
+            } 
+
+            // Reducing counter
+            count--;
+            // Debug printf
+            printf("%d\n", count);
+        }
+    }
 
 	//note for parallel try using fork if the parent process and use exec for children
 
