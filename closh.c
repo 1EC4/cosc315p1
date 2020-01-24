@@ -79,9 +79,7 @@ int main() {
 	       
 	    }
 
-	} else { // TODO: Fix timeout glitch: The first iteration works as intended, but any subsequent iterations default to killing
-             //       the child immediately and printing the timeout exceeded error without waiting at all.
-
+    } else {
         // Sequential Execution
         // Variables to keep track of 2 child processes
         pid_t child_pid, timer_pid;
@@ -116,12 +114,12 @@ int main() {
                 kill(child_pid, SIGKILL);
                 // After killing the child, the parent prints an error message.
                 printf("%s exceeded timeout\n", cmdTokens[0]);
-            } 
+            }
+            // Waiting for the second process to exit
+            wait(NULL);
 
             // Reducing counter
             count--;
-            // Debug printf
-            printf("%d\n", count);
         }
     }
 
