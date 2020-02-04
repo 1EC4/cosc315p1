@@ -1,6 +1,7 @@
 // closh.c - COSC 315, Winter 2020
 // #47462361 Anthony Boyko
 // #22092845 Nick Rieske
+// #29164977 Jonathan Gresl
 
 #include <stdio.h>
 #include <unistd.h>
