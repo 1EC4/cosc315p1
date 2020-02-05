@@ -19,12 +19,13 @@ A simple clone shell in C which uses system calls directly to implement a comman
 
 ## Design Choices
 ###### When executing the processes concurrently
-  1. Create an array with the size equal to the number of copies chosen by the user
-  2. In a loop, use **fork()** to create a child and assign a PID to each index in the array
-      - Notify user of each child created along with their respective PID numbers
-      - Use **execvp()** to start each of the copied programs
-  3.
-  4.
+  1. Creates an array with the size equal to the number of copies chosen by the user
+  2. In a loop, uses **fork()** to create a child and assign a PID to each index in the array
+      - Notifies user of each child created along with their respective PID numbers
+      - Uses **execvp()** to start each of the copied programs
+  3. Uses **fork()** to create a timer child that keeps track of the timeout
+      - Notifies user of the timer child created along with its PID number
+  4. 
   5.
   6.
   7.
@@ -32,10 +33,10 @@ A simple clone shell in C which uses system calls directly to implement a comman
   9.
 
 ###### When executing the processes sequentially
-  1.
-  2.
-  3.
-  4.
+  1. Uses **fork()** to create a process child that keeps track of the timeout
+  2. Notifies user of the process child created along with its PID number
+  3. Uses **fork()** to create a timer child that keeps track of the timeout
+  4. Notifies user of the timer child created along with its PID number
   5.
   6.
   7.
