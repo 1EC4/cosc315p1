@@ -124,3 +124,39 @@
         Process child created. PID = 7382
         sleep exceeded the specified timeout
         closh>
+
+
+/*** User chooses to run the hostname program 5 times sequentially with no timeout ***/
+
+        closh> hostname
+          count> 5
+          [p]arallel or [s]equential> s
+          timeout> 0
+        Process child created. PID = 3581
+        ubuntu
+        Process child created. PID = 3582
+        ubuntu
+        Process child created. PID = 3583
+        ubuntu
+        Process child created. PID = 3584
+        ubuntu
+        Process child created. PID = 3585
+        ubuntu
+        closh>
+
+
+/*** User chooses to run the hostname program 4 times concurrently with no timeout ***/
+
+        closh> hostname  
+          count> 4
+          [p]arallel or [s]equential> p
+          timeout> 0
+        Process child created. PID = 3595
+        ubuntu
+        Process child created. PID = 3594
+        ubuntu
+        Process child created. PID = 3593
+        ubuntu
+        Process child created. PID = 3592
+        ubuntu
+        closh>
