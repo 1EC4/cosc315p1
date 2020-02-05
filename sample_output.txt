@@ -1,0 +1,79 @@
+/*** User chooses to run the hostname program 7 times sequentially with a a timeout of 3 ***/
+
+        closh> hostname
+        count> 7
+        [p]arallel or [s]equential> s
+        timeout> 3
+        Process child created. PID = 5921
+        Timer child created.   PID = 5922
+        VirtualBox
+        Process child created. PID = 5923
+        Timer child created.   PID = 5924
+        VirtualBox
+        Process child created. PID = 5925
+        Timer child created.   PID = 5926
+        VirtualBox
+        Process child created. PID = 5927
+        Timer child created.   PID = 5928
+        VirtualBox
+        Process child created. PID = 5929
+        Timer child created.   PID = 5930
+        VirtualBox
+        Process child created. PID = 5931
+        Timer child created.   PID = 5932
+        VirtualBox
+        Timer child created.   PID = 5934
+        Process child created. PID = 5933
+        VirtualBox
+        closh>
+
+
+/*** User chooses to run the hostname program 3 times concurrently with a a timeout of 6 ***/
+
+        closh> hostname
+        count> 3
+        [p]arallel or [s]equential> p
+        timeout> 6
+        Process child created. PID = 6038
+        Timer child created.   PID = 6041
+        Process child created. PID = 6040
+        Process child created. PID = 6039
+        VirtualBox
+        VirtualBox
+        VirtualBox
+        closh>
+
+/*** User chooses to run the echo program (with the argument Hello World!) 9 times sequentially with a a timeout of 1 ***/
+
+        closh> echo Hello World!
+        count> 9
+        [p]arallel or [s]equential> s
+        timeout> 1
+        Process child created. PID = 6053
+        Timer child created.   PID = 6054
+        Hello World!
+        Process child created. PID = 6055
+        Timer child created.   PID = 6056
+        Hello World!
+        Timer child created.   PID = 6058
+        Process child created. PID = 6057
+        Hello World!
+        Timer child created.   PID = 6060
+        Process child created. PID = 6059
+        Hello World!
+        Process child created. PID = 6061
+        Timer child created.   PID = 6062
+        Hello World!
+        Process child created. PID = 6063
+        Timer child created.   PID = 6064
+        Hello World!
+        Process child created. PID = 6065
+        Timer child created.   PID = 6066
+        Hello World!
+        Process child created. PID = 6067
+        Timer child created.   PID = 6068
+        Hello World!
+        Process child created. PID = 6069
+        Timer child created.   PID = 6070
+        Hello World!
+        closh>
