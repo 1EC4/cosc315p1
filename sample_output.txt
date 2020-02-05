@@ -1,9 +1,9 @@
 /*** User chooses to run the hostname program 7 times sequentially with a a timeout of 3 ***/
 
         closh> hostname
-        count> 7
-        [p]arallel or [s]equential> s
-        timeout> 3
+          count> 7
+          [p]arallel or [s]equential> s
+          timeout> 3
         Process child created. PID = 5921
         Timer child created.   PID = 5922
         VirtualBox
@@ -31,9 +31,9 @@
 /*** User chooses to run the hostname program 3 times concurrently with a a timeout of 6 ***/
 
         closh> hostname
-        count> 3
-        [p]arallel or [s]equential> p
-        timeout> 6
+          count> 3
+          [p]arallel or [s]equential> p
+          timeout> 6
         Process child created. PID = 6038
         Timer child created.   PID = 6041
         Process child created. PID = 6040
@@ -46,9 +46,9 @@
 /*** User chooses to run the echo program (with the argument Hello World!) 9 times sequentially with a a timeout of 1 ***/
 
         closh> echo Hello World!
-        count> 9
-        [p]arallel or [s]equential> s
-        timeout> 1
+          count> 9
+          [p]arallel or [s]equential> s
+          timeout> 1
         Process child created. PID = 6053
         Timer child created.   PID = 6054
         Hello World!
@@ -76,4 +76,51 @@
         Process child created. PID = 6069
         Timer child created.   PID = 6070
         Hello World!
+        closh>
+        
+/*** User chooses to run the sleep program 3 times sequentially with a a timeout of 6 ***/
+
+        closh> sleep 3
+        count> 4
+        [p]arallel or [s]equential> s
+        timeout> 6
+        Process child created. PID = 7344
+        Timer child created.   PID = 7345
+        Process child created. PID = 7346
+        Timer child created.   PID = 7347
+        Process child created. PID = 7348
+        Timer child created.   PID = 7349
+        Process child created. PID = 7350
+        Timer child created.   PID = 7351
+        closh>
+        
+ /*** User chooses to run the sleep program 5 times sequentially with a a timeout of 3 ***/       
+        
+        closh> sleep 5
+          count> 3
+          [p]arallel or [s]equential> s
+          timeout> 3
+        Process child created. PID = 7368
+        Timer child created.   PID = 7369
+        sleep exceeded the specified timeout
+        Process child created. PID = 7370
+        Timer child created.   PID = 7371
+        sleep exceeded the specified timeout
+        Process child created. PID = 7372
+        Timer child created.   PID = 7373
+        sleep exceeded the specified timeout
+        closh>
+        
+        
+ /*** User chooses to run the sleep program 5 times concurrently with a a timeout of 3 ***/    
+ 
+        closh> sleep 5
+          count> 3
+          [p]arallel or [s]equential> p
+          timeout> 3
+        Process child created. PID = 7380
+        Timer child created.   PID = 7383
+        Process child created. PID = 7381
+        Process child created. PID = 7382
+        sleep exceeded the specified timeout
         closh>
