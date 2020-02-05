@@ -18,7 +18,7 @@ A simple clone shell in C which uses system calls directly to implement a comman
 - [x] A timeout specifying the maximum duration of each process in seconds (0 to 9)
 
 ## Design Choices
-###### When running the processes concurrently
+###### When executing the processes concurrently
   1. Create an array with the size equal to the number of copies chosen by the user
   2. In a loop, use **fork()** to create a child and assign a PID to each index in the array
       - Notify user of each child created along with their respective PID numbers
@@ -31,7 +31,7 @@ A simple clone shell in C which uses system calls directly to implement a comman
   8.
   9.
 
-###### When running the processes sequentially
+###### When executing the processes sequentially
   1.
   2.
   3.
