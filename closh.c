@@ -85,10 +85,12 @@ int main() {
             pid_t timer_pid;
 
             // Create the timer process
-            if((timer_pid = fork()) == 0){
+            if(timeout > 0 && (timer_pid = fork()) == 0){
                 printf("Timer child created.   PID = %d\n", getpid());
                 sleep(timeout);
                 exit(0);
+            } else {
+                timer_pid = -1;
             }
 
             // Variable to keep track of each process as it exits
@@ -110,11 +112,11 @@ int main() {
                 }
             }
 
-            if (finished_children == count){
+            if (finished_children == count && timeout > 0){
                 // Since all the children finished executing, the timer is killed
                 kill(timer_pid, SIGKILL);
                 wait(NULL);
-            } else {
+            } else if (finished_children < count){
                 // The timer finished before all the children did, so an error is printed
                 printf("%s exceeded the specified timeout\n", cmdTokens[0]);
                 // and all children that are still running are killed
@@ -149,27 +151,31 @@ int main() {
                 }
 
                 // Creates a child to keep track of the timeout
-                if ((timer_pid = fork()) == 0){
+                if (timeout > 0 && (timer_pid = fork()) == 0){
                     printf("Timer child created.   PID = %d\n", getpid());
                     sleep(timeout);
                     exit(0);
+                } else {
+                    timer_pid = -1;
                 }
 
                 // Parent program waits for either child to finish
                 pid_t finished_process = wait(NULL);
-                if (finished_process == child_pid){
+                if (finished_process == child_pid && timeout > 0){
                     // If the child executing the user command finishes first,
                     // the timer process is killed. This is the intended outcome.
                     kill(timer_pid, SIGKILL);
-                } else {
+                    // Waiting for the second process to exit
+                    wait(NULL);
+                } else if (finished_process == timer_pid){
                     // If the timer finishes before the user command child, we
                     // kill that child as it has exceeded the timeout.
                     kill(child_pid, SIGKILL);
                     // After killing the child, the parent prints an error message.
                     printf("%s exceeded the specified timeout\n", cmdTokens[0]);
+                    // Waiting for the second process to exit
+                    wait(NULL);
                 }
-                // Waiting for the second process to exit
-                wait(NULL);
 
                 // Reducing counter
                 count--;
