@@ -1,4 +1,4 @@
-/*** User chooses to run the hostname program 7 times sequentially with a a timeout of 3 ***/
+/*** User chooses to run the hostname program 7 times sequentially with a timeout of 3 ***/
 
         closh> hostname
           count> 7
@@ -28,7 +28,7 @@
         closh>
 
 
-/*** User chooses to run the hostname program 3 times concurrently with a a timeout of 6 ***/
+/*** User chooses to run the hostname program 3 times concurrently with a timeout of 6 ***/
 
         closh> hostname
           count> 3
@@ -43,7 +43,7 @@
         VirtualBox
         closh>
 
-/*** User chooses to run the echo program (with the argument Hello World!) 9 times sequentially with a a timeout of 1 ***/
+/*** User chooses to run the echo program (with the argument Hello World!) 9 times sequentially with a timeout of 1 ***/
 
         closh> echo Hello World!
           count> 9
@@ -78,7 +78,7 @@
         Hello World!
         closh>
         
-/*** User chooses to run the sleep program 3 times sequentially with a a timeout of 6 ***/
+/*** User chooses to run the sleep program 3 times sequentially with a timeout of 6 ***/
 
         closh> sleep 3
         count> 4
@@ -94,7 +94,7 @@
         Timer child created.   PID = 7351
         closh>
         
- /*** User chooses to run the sleep program 5 times sequentially with a a timeout of 3 ***/       
+ /*** User chooses to run the sleep program 5 times sequentially with a timeout of 3 ***/       
         
         closh> sleep 5
           count> 3
@@ -112,7 +112,7 @@
         closh>
         
         
- /*** User chooses to run the sleep program 5 times concurrently with a a timeout of 3 ***/    
+ /*** User chooses to run the sleep program 5 times concurrently with a timeout of 3 ***/    
  
         closh> sleep 5
           count> 3
