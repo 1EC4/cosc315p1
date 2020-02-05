@@ -42,7 +42,7 @@ A simple clone shell in C which uses system calls directly to implement a comman
   7.
 
 ## Sample Output
-Check out [this example file](examples/output.jpg) for sample output.
+Check out [this example file](sample_output.txt) for sample output.
 
 ## Contributors
 - **Anthony Boyko**
