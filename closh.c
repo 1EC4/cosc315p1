@@ -13,9 +13,9 @@
 #define TRUE 1
 #define FALSE 0
 
-// tokenize the command string into arguments - do not modify
+// Tokenize the command string into arguments - do not modify
 void readCmdTokens(char* cmd, char** cmdTokens) {
-    cmd[strlen(cmd) - 1] = '\0'; // drop trailing newline
+    cmd[strlen(cmd) - 1] = '\0';        // drop trailing newline
     int i = 0;
     cmdTokens[i] = strtok(cmd, " "); // tokenize on spaces
     while (cmdTokens[i++] && i < sizeof(cmdTokens)) {
@@ -23,71 +23,80 @@ void readCmdTokens(char* cmd, char** cmdTokens) {
     }
 }
 
-// read one character of input, then discard up to the newline - do not modify
+// Read one character of input, then discard up to the newline - do not modify
 char readChar() {
     char c = getchar();
     while (getchar() != '\n');
     return c;
 }
 
-// main method - program entry point
+// Main method - program entry point
 int main() {
-    char cmd[81]; // array of chars (a string)
-    char* cmdTokens[20]; // array of strings
-    int count; // number of times to execute command
-    int parallel; // whether to run in parallel or sequentially
-    int timeout; // max seconds to run set of commands (parallel) or each command (sequentially)
+    char cmd[81];           // Array of chars (a string)
+    char* cmdTokens[20];    // Array of strings
+    int count;              // Number of times to execute command
+    int parallel;           // Whether to run in parallel or sequentially
+    int timeout;            // Max seconds to run set of commands (parallel) or each command (sequentially)
     
-    while (TRUE) { // main shell input loop
+    // Main shell input loop - Return to the prompt once all processes have either completed or timed out
+    while (TRUE) {          
         
-        // begin parsing code - do not modify
-        printf("closh> ");
-        fgets(cmd, sizeof(cmd), stdin);
-        if (cmd[0] == '\n') continue;
-        readCmdTokens(cmd, cmdTokens);
-        do {
-            printf("  count> ");
-            count = readChar() - '0';
-        } while (count <= 0 || count > 9);
+        /*** Parse input from user ***/          
         
-        printf("  [p]arallel or [s]equential> ");
-        parallel = (readChar() == 'p') ? TRUE : FALSE;
-        do {
-            printf("  timeout> ");
-            timeout = readChar() - '0';
-        } while (timeout < 0 || timeout > 9);
-        // end parsing code
+            // Prompt user for the name of the program to run
+            printf("closh> ");
+            fgets(cmd, sizeof(cmd), stdin);
+            if (cmd[0] == '\n') continue;
+            readCmdTokens(cmd, cmdTokens);
 
-        //using parallel 
+            // Prompt user for the number of copies of the program to run
+            do {
+                printf("  count> ");
+                count = readChar() - '0';
+            } while (count <= 0 || count > 9);
+            
+            // Prompt user whethere a process should execute concurrently or sequentially
+            printf("  [p]arallel or [s]equential> ");
+            parallel = (readChar() == 'p') ? TRUE : FALSE;
+            do {
+                printf("  timeout> ");
+                timeout = readChar() - '0';
+            } while (timeout < 0 || timeout > 9);
+
+        /*** Execute processes concurrently ***/
+
         if (parallel) {
             // Create an array of PIDs to keep track of each child
             pid_t child_pid[count];
-            // Variable to keep track of Timer PID
-            pid_t timer_pid;
-            // Create each of the children
-            // and assign its PID to the array
+
+            // Create each of the children and assign its PID to the array
             for(int i = 0; i < count; i++){
                 if ((child_pid[i] = fork()) == 0){
-                    printf("Child %d created\n", getpid());
-                    // Start the specified program or
-                    // print an error and exit
+                    printf("Process child created. PID = %d\n", getpid());
+
+                    // Start the specified program or print an error and exit
                     execvp(cmdTokens[0], cmdTokens);
                     printf("Can't execute %s\n", cmdTokens[0]);
                     exit(1);
                 }
             }
 
+            // Variable to keep track of Timer PID
+            pid_t timer_pid;
+
             // Create the timer process
             if((timer_pid = fork()) == 0){
-                printf("Child %d created\n", getpid());
+                printf("Timer child created.   PID = %d\n", getpid());
                 sleep(timeout);
                 exit(0);
             }
 
             // Variable to keep track of each process as it exits
             pid_t finished_process;
+
             // Counter to keep track of how many children exit before the timer does
             int finished_children = 0;
+
             // The loop doesn't terminate until either:
             //   - the number of children that have exited is equal to the number of children created (ie: all children have finished)
             //   - the timer finishes (so the inside of the while loop only executes if a child exits)
@@ -119,17 +128,19 @@ int main() {
                 }
             }
 
+        /*** Execute processes sequentially ***/
+
         } else {
-            // Sequential Execution
             // Variables to keep track of 2 child processes
             pid_t child_pid, timer_pid;
+
             // Iterates count number of times
             while ( count > 0 ) {
 
                 // Creates a child process and stores its PID in child_pid
                 // The child executes the code inside of the if block
                 if ((child_pid = fork()) == 0){
-                    printf("Child %d created\n", getpid());
+                    printf("Process child created. PID = %d\n", getpid());
                     // Tries replacing itself with the user specified program
                     execvp(cmdTokens[0], cmdTokens);
                     // If the above fails, the child prints an error and exits
@@ -139,7 +150,7 @@ int main() {
 
                 // Creates a child to keep track of the timeout
                 if ((timer_pid = fork()) == 0){
-                    printf("Child %d created\n", getpid());
+                    printf("Timer child created.   PID = %d\n", getpid());
                     sleep(timeout);
                     exit(0);
                 }
@@ -166,4 +177,3 @@ int main() {
         }     
     }
 }
-
