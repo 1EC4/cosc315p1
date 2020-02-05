@@ -8,7 +8,7 @@
 - [Contributors](#contributors)
 
 ## Description
-A simple clone shell in C which uses system calls directly to implement a command-line shell that can run multiple copies of a program at once.
+A simple clone shell in C which uses system calls directly to implement a command-line shell that can run multiple copies of a program either concurrently or sequentially.
 
 ## Core Features
 **Takes as input and executes the program accordingly:**
